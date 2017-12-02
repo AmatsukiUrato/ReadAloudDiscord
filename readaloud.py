@@ -57,7 +57,6 @@ async def on_message(message):
     # チャンネルへ呼び出し
     ##########################
     if message.content.startswith('!rbot summon'):
-        print('1')
         if not client.is_voice_connected(message.server):
             await client.join_voice_channel(message.author.voice.voice_channel)
 
@@ -67,7 +66,6 @@ async def on_message(message):
     # チャンネル移動
     ##########################
     elif message.content.startswith('!rbot move'):
-        print('2')
         if client.is_voice_connected(message.server):
             await client.voice_client_in(message.server).move_to(message.author.voice.voice_channel)
 
@@ -77,9 +75,20 @@ async def on_message(message):
     # チャンネルから落とす
     ##########################
     elif message.content.startswith('!rbot disconnect'):
-        print('3')
         if client.is_voice_connected(message.server):
             await client.voice_client_in(message.server).disconnect()
+
+
+
+    ##########################
+    # チャンネルに再入場(エラー時利用)
+    ##########################
+    elif message.content.startswith('!rbot rejoin'):
+        if client.is_voice_connected(message.server):
+            voice_channel = client.voice_client_in(message.server)
+            print(type(voice_channel))
+            await voice_channel.disconnect()
+            await client.join_voice_channel(voice_channel.channel)
 
 
 
@@ -87,7 +96,6 @@ async def on_message(message):
     # 読み上げるチャンネルの登録
     ##########################
     elif message.content.startswith('!rbot register'):
-        print('4')
         c.execute("SELECT * FROM readloud WHERE channel_id = ?", (message.channel.id,))
         # is_read
         if not c.fetchone():
