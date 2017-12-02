@@ -116,7 +116,7 @@ async def on_message(message):
             # is_read
             if c.fetchone():
                 # 音声生成コマンドを実行
-                subprocess.call("./AquesTalkPi " + message.content + " > tmp.wav")
+                subprocess.call("./AquesTalkPi \"" + message.content + "\" > tmp.wav")
                 sound_player = client.voice_client_in(message.server).create_ffmpeg_player('tmp.wav')
                 sound_player.start()
                 sound_player.join()
