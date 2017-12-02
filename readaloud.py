@@ -8,7 +8,7 @@ import asyncio
 # AddedPackage
 import sqlite3
 import threading
-import subprocess
+import os
 
 
 # version
@@ -116,7 +116,7 @@ async def on_message(message):
             # is_read
             if c.fetchone():
                 # 音声生成コマンドを実行
-                subprocess.call("./AquesTalkPi \"" + message.content + "\" > tmp.wav")
+                os.system('./AquesTalkPi ' + message.content + '> tmp.wav')
                 sound_player = client.voice_client_in(message.server).create_ffmpeg_player('tmp.wav')
                 sound_player.start()
                 sound_player.join()
