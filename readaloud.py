@@ -86,7 +86,6 @@ async def on_message(message):
     elif message.content.startswith('!rbot rejoin'):
         if client.is_voice_connected(message.server):
             voice_channel = client.voice_client_in(message.server)
-            print(type(voice_channel))
             await voice_channel.disconnect()
             await client.join_voice_channel(voice_channel.channel)
 
@@ -114,8 +113,9 @@ async def on_message(message):
             c.execute("SELECT * FROM readloud WHERE channel_id = ?", (message.channel.id,))
             # is_read
             if c.fetchone():
-                # if sound_player is None:
-                sound_player = client.voice_client_in(message.server).create_ffmpeg_player('test.wav')
+                # 音声生成コマンドを実行
+                subprocess.call("./AquesTalkPi " + message.content + " > tmp.wav")
+                sound_player = client.voice_client_in(message.server).create_ffmpeg_player('tmp.wav')
                 sound_player.start()
                 sound_player.join()
 
