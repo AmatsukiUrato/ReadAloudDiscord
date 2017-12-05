@@ -99,3 +99,15 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# 鍵
+KEY.txt
+
+# test鍵
+TESTKEY.txt
+
+# DB
+readloud.db
+
+# DB
+tmp.wav
